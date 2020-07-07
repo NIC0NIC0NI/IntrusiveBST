@@ -626,7 +626,7 @@ Node* bst_next(Node* node) {
     if (node->right) {
         node = node->right; 
         while (node->left)
-            node=node->left;
+            node = node->left;
         return node;
     }
     
@@ -639,7 +639,7 @@ Node* bst_prev(Node* node) {
     if (node->left) {
         node = node->left; 
         while (node->right)
-            node=node->right;
+            node = node->right;
         return node;
     }
 

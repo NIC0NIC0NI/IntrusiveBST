@@ -361,7 +361,7 @@ public:
 };
 
 template<typename Iter>
-class Range : FullRange<Iter> {
+class Range : public FullRange<Iter> {
     Iter last;
 public:
     explicit Range(Iter first, Iter last_) : FullRange<Iter>(first), last(last_) {}
@@ -375,26 +375,29 @@ public:
 
 using node_hook = impl::NodeBase;
 
-template<typename NodeType, typename BST>
-inline iter::FullRange<iter::Iterator<NodeType>> range(BST& bst) {
-    return iter::FullRange<iter::Iterator<NodeType>>(bst.first());
+template<typename BST>
+inline iter::FullRange<iter::Iterator<typename BST::node_type>> range(BST& bst) {
+    using it = iter::Iterator<typename BST::node_type>;
+    return iter::FullRange<it>(it(bst.first()));
 }
 
-template<typename NodeType, typename BST>
-inline iter::FullRange<iter::Iterator<NodeType>> crange(const BST& bst) {
-    return iter::FullRange<iter::Iterator<const NodeType>>(bst.first());
+template<typename BST>
+inline iter::FullRange<iter::Iterator<typename BST::node_type>> crange(const BST& bst) {
+    using it = iter::Iterator<const typename BST::node_type>;
+    return iter::FullRange<it>(it(bst.first()));
 }
 
-template<typename NodeType, typename BST>
-inline iter::FullRange<iter::Iterator<NodeType>> rrange(BST& bst) {
-    return iter::FullRange<iter::ReverseIterator<NodeType>>(bst.last());
+template<typename BST>
+inline iter::FullRange<iter::ReverseIterator<typename BST::node_type>> rrange(BST& bst) {
+    using it = iter::ReverseIterator<typename BST::node_type>;
+    return iter::FullRange<it>(it(bst.last()));
 }
 
-template<typename NodeType, typename BST>
-inline iter::FullRange<iter::Iterator<NodeType>> crrange(const BST& bst) {
-    return iter::FullRange<iter::ReverseIterator<const NodeType>>(bst.last());
+template<typename BST>
+inline iter::FullRange<iter::ReverseIterator<typename BST::node_type>> crrange(const BST& bst) {
+    using it = iter::ReverseIterator<const typename BST::node_type>;
+    return iter::FullRange<it>(it(bst.last()));
 }
-
 
 template<typename NodeType>
 inline iter::Range<iter::Iterator<NodeType>> range(NodeType* first, NodeType* last) {
@@ -409,19 +412,6 @@ inline iter::Range<iter::Iterator<const NodeType>> crange(NodeType* first, NodeT
 }
 
 template<typename NodeType>
-inline iter::Range<iter::ReverseIterator<NodeType>> rrange(NodeType* first, NodeType* last) {
-    typedef iter::ReverseIterator<NodeType> it;
-    return iter::Range<it>(it(last), it(first));
-}
-
-template<typename NodeType>
-inline iter::Range<iter::ReverseIterator<const NodeType>> crrange(NodeType* first, NodeType* last) {
-    typedef iter::ReverseIterator<const NodeType> it;
-    return iter::Range<it>(it(last), it(first));
-}
-
-
-template<typename NodeType>
 inline iter::Range<iter::Iterator<NodeType>> range(const std::pair<NodeType*,NodeType*>& r) {
     return range(r.first, r.second);
 }
@@ -430,17 +420,6 @@ template<typename NodeType>
 inline iter::Range<iter::Iterator<const NodeType>> crange(const std::pair<NodeType*,NodeType*>& r) {
     return crange(r.first, r.second);
 }
-
-template<typename NodeType>
-inline iter::Range<iter::ReverseIterator<NodeType>> rrange(const std::pair<NodeType*,NodeType*>& r) {
-    return rrange(r.first, r.second);
-}
-
-template<typename NodeType>
-inline iter::Range<iter::ReverseIterator<const NodeType>> crrange(const std::pair<NodeType*,NodeType*>& r) {
-    return crrange(r.first, r.second);
-}
-
 
 }
 #endif
