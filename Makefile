@@ -1,25 +1,25 @@
-default:asm/bstree.s bin/bench bin/poly
+default:src/bstree.s bench poly
 
 CXX = g++
 CFLAGS = -std=c++11 -O2 -I./include
 
-bin/bench:obj/bench.o obj/bstree.o
+bench:test/bench.o src/bstree.o
 	$(CXX) $^ -o $@
 
-bin/poly:obj/poly.o obj/bstree.o
+poly:test/poly.o src/bstree.o
 	$(CXX) $^ -o $@
 
-obj/bench.o:test/bench.cpp include/bstree.h
+test/bench.o:test/bench.cpp include/bstree.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-obj/poly.o:test/poly.cpp include/bstree.h
+test/poly.o:test/poly.cpp include/bstree.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-obj/bstree.o:src/bstree.cpp include/bstree.h
+src/bstree.o:src/bstree.cpp include/bstree.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-asm/bstree.s:src/bstree.cpp include/bstree.h
+src/bstree.s:src/bstree.cpp include/bstree.h
 	$(CXX) $(CFLAGS) -S $< -o $@
 
 clean:
-	rm bin/* obj/* asm/*
+	rm poly bench src/*.o src/*.s test/*.o

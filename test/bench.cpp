@@ -81,7 +81,7 @@ void test_raw(int size, int n_mod, int n_sch, std::uint64_t seed) {
     std::cout << "Testing with intrusive tree: maximum size = " << size << ", #insert = " << n_mod << \
         ", #search = " << n_sch << ", #erase = " << erase_idx.size() << ", random seed = " << seed << std::endl;
 
-    std::cout << "Ordered test:" << std::endl;
+    std::cout << "Worst test (Insert an ordered sequence):" << std::endl;
     test_bst<bst::rbtree<IntNode, int, GetValue>>(size, n_mod, n_sch, nodes, search_idx, erase_idx, "RB-Tree");
     test_bst<bst::avl<IntNode, int, GetValue>>(size, n_mod, n_sch, nodes, search_idx, erase_idx, "AVL    ");
     test_bst<bst::wavl<IntNode, int, GetValue>>(size, n_mod, n_sch, nodes, search_idx, erase_idx, "WAVL   ");
